@@ -159,6 +159,11 @@ textstring
                 dc.b    "tab",09,"test",09,09,"tab",09,"test",09,"tab",13,10
                 dc.b    "tab",09,"test",09,"tab",09,"test",09,"tab",13,10
                 dc.b    "tab",09,"test",09,"tabtab",09,"testtest",09,"tabtabtab",09,"testtesttest",13,10
+                dc.b    "0 1 2 3 4 5 6 7 8 9",13,10
+                dc.b    13,10
+                dc.b    34,"Double Quotes",34
+                dc.b    13,10
+                dc.b    "! ",34," # $ % & ' ( ) * + , - . ",13,10
                 dc.b    0,0,0,0
 
 
@@ -276,7 +281,7 @@ display_character
                 
                 ; calculate char gfx address
                 lea     character_table,a2
-                sub.b   #'a',d0
+                sub.b   #'!',d0
                 ext.w   d0
                 lsl.w   #2,d0
                 move.l  (a2,d0.w),a2        ; a2 = source gfx
@@ -329,36 +334,238 @@ screenbuffer    dcb.b   40*256,$f0
 
 
 character_table
-                dc.l    charA
-                dc.l    charB
-                dc.l    charC
-                dc.l    charD
-                dc.l    charE
-                dc.l    charF
-                dc.l    charG
-                dc.l    charH
-                dc.l    charI
-                dc.l    charJ
-                dc.l    charK
-                dc.l    charL
-                dc.l    charM
-                dc.l    charN
-                dc.l    charO
-                dc.l    charP
-                dc.l    charQ
-                dc.l    charR
-                dc.l    charS
-                dc.l    charT
-                dc.l    charU
-                dc.l    charV
-                dc.l    charW
-                dc.l    charX
-                dc.l    charY
-                dc.l    charZ
+                dc.l    char_Exclaimation
+                dc.l    char_DoubleQuote
+                dc.l    char_Hash
+                dc.l    char_Dollar
+                dc.l    char_Percentage
+                dc.l    char_Ampersand
+                dc.l    char_Quote
+                dc.l    char_LeftPar
+                dc.l    char_RightPar
+                dc.l    char_Asterisk
+                dc.l    char_Plus
+                dc.l    char_Comma
+                dc.l    char_minus
+                dc.l    char_Period
+                dc.l    char_FSlash
 
+                dc.l    char0           ; 0
+                dc.l    char1           ; 1
+                dc.l    char2           ; 2
+                dc.l    char3           ; 3
+                dc.l    char4           ; 4
+                dc.l    char5           ; 5
+                dc.l    char6           ; 6
+                dc.l    char7           ; 7
+                dc.l    char8           ; 8
+                dc.l    char9           ; 9
+
+                dc.l    char_UNDEF      ; :
+                dc.l    char_UNDEF      ; ;
+                dc.l    char_UNDEF      ; <
+                dc.l    char_UNDEF      ; =
+                dc.l    char_UNDEF      ; >
+                dc.l    char_UNDEF      ; ?
+                dc.l    char_UNDEF      ; @
+
+                dc.l    charA           ; A
+                dc.l    charB           ; B
+                dc.l    charC           ; C
+                dc.l    charD           ; D
+                dc.l    charE           ; E
+                dc.l    charF           ; F
+                dc.l    charG           ; G
+                dc.l    charH           ; H
+                dc.l    charI           ; I
+                dc.l    charJ           ; J
+                dc.l    charK           ; K
+                dc.l    charL           ; L
+                dc.l    charM           ; M
+                dc.l    charN           ; N
+                dc.l    charO           ; O
+                dc.l    charP           ; P
+                dc.l    charQ           ; Q
+                dc.l    charR           ; R
+                dc.l    charS           ; S
+                dc.l    charT           ; T
+                dc.l    charU           ; U
+                dc.l    charV           ; V
+                dc.l    charW           ; W
+                dc.l    charX           ; X
+                dc.l    charY           ; Y
+                dc.l    charZ           ; Z
+
+                dc.l    char_UNDEF      ; [
+                dc.l    char_UNDEF      ; \
+                dc.l    char_UNDEF      ; ]
+                dc.l    char_UNDEF      ; ^
+                dc.l    char_UNDEF      ; _
+                dc.l    char_UNDEF      ; `
+
+                dc.l    charA           ; a
+                dc.l    charB           ; b
+                dc.l    charC           ; c
+                dc.l    charD           ; d
+                dc.l    charE           ; e
+                dc.l    charF           ; f
+                dc.l    charG           ; g
+                dc.l    charH           ; h
+                dc.l    charI           ; i
+                dc.l    charJ           ; j
+                dc.l    charK           ; k
+                dc.l    charL           ; l
+                dc.l    charM           ; m
+                dc.l    charN           ; n
+                dc.l    charO           ; o
+                dc.l    charP           ; p
+                dc.l    charQ           ; q
+                dc.l    charR           ; r
+                dc.l    charS           ; s
+                dc.l    charT           ; t
+                dc.l    charU           ; u
+                dc.l    charV           ; v
+                dc.l    charW           ; w
+                dc.l    charX           ; x
+                dc.l    charY           ; y
+                dc.l    charZ           ; z
+
+                dc.l    char_UNDEF      ; {
+                dc.l    char_UNDEF      ; |
+                dc.l    char_UNDEF      ; }
+                dc.l    char_UNDEF      ; ~
+                dc.l    char_UNDEF      ; DEL
 
                 even
 font            
+
+char_UNDEF      dc.w    %1111100000000000
+                dc.w    %1111100000000000
+                dc.w    %1111100000000000
+                dc.w    %1111100000000000
+                dc.w    %1111100000000000
+                dc.w    %0000000000000000
+                dc.w    %0000000000000000
+
+
+char_Exclaimation
+                dc.w    %0010000000000000
+                dc.w    %0010000000000000
+                dc.w    %0010000000000000
+                dc.w    %0000000000000000
+                dc.w    %0010000000000000
+                dc.w    %0000000000000000
+                dc.w    %0000000000000000
+
+char_DoubleQuote
+                dc.w    %0100100000000000
+                dc.w    %0100100000000000
+                dc.w    %0000000000000000
+                dc.w    %0000000000000000
+                dc.w    %0000000000000000
+                dc.w    %0000000000000000
+                dc.w    %0000000000000000
+char_Hash
+                dc.w    %0101000000000000
+                dc.w    %1111100000000000
+                dc.w    %0101100000000000
+                dc.w    %1111100000000000
+                dc.w    %0101000000000000
+                dc.w    %0000000000000000
+                dc.w    %0000000000000000
+char_Dollar
+char_Percentage
+char_Ampersand
+char_Quote
+char_LeftPar
+char_RightPar
+char_Asterisk
+char_Plus
+char_Comma
+char_minus
+char_Period
+char_FSlash
+
+char0           dc.w    %0111000000000000
+                dc.w    %1001100000000000
+                dc.w    %1010100000000000
+                dc.w    %1100100000000000
+                dc.w    %0111000000000000
+                dc.w    %0000000000000000
+                dc.w    %0000000000000000
+
+char1           dc.w    %0110000000000000
+                dc.w    %1010000000000000
+                dc.w    %0010000000000000
+                dc.w    %0010000000000000
+                dc.w    %1111100000000000
+                dc.w    %0000000000000000
+                dc.w    %0000000000000000
+
+char2           dc.w    %1111000000000000
+                dc.w    %0000100000000000
+                dc.w    %0111000000000000
+                dc.w    %1000000000000000
+                dc.w    %1111100000000000
+                dc.w    %0000000000000000
+                dc.w    %0000000000000000
+
+char3           dc.w    %1111000000000000
+                dc.w    %0000100000000000
+                dc.w    %0111000000000000
+                dc.w    %0000100000000000
+                dc.w    %1111000000000000
+                dc.w    %0000000000000000
+                dc.w    %0000000000000000
+
+char4           dc.w    %1000000000000000
+                dc.w    %1010000000000000
+                dc.w    %1111100000000000
+                dc.w    %0010000000000000
+                dc.w    %0010000000000000
+                dc.w    %0000000000000000
+                dc.w    %0000000000000000
+
+char5           dc.w    %1111100000000000
+                dc.w    %1000000000000000
+                dc.w    %1111000000000000
+                dc.w    %0000100000000000
+                dc.w    %1111000000000000
+                dc.w    %0000000000000000
+                dc.w    %0000000000000000
+
+char6           dc.w    %1111100000000000
+                dc.w    %1000000000000000
+                dc.w    %1111000000000000
+                dc.w    %1000100000000000
+                dc.w    %0111000000000000
+                dc.w    %0000000000000000
+                dc.w    %0000000000000000
+
+char7           dc.w    %1111100000000000
+                dc.w    %0000100000000000
+                dc.w    %0001000000000000
+                dc.w    %0010000000000000
+                dc.w    %0100000000000000
+                dc.w    %0000000000000000
+                dc.w    %0000000000000000
+
+char8           dc.w    %0111000000000000
+                dc.w    %1000100000000000
+                dc.w    %0111000000000000
+                dc.w    %1000100000000000
+                dc.w    %0111000000000000
+                dc.w    %0000000000000000
+                dc.w    %0000000000000000
+
+char9           dc.w    %0111000000000000
+                dc.w    %1000100000000000
+                dc.w    %0111000000000000
+                dc.w    %0000100000000000
+                dc.w    %0111000000000000
+                dc.w    %0000000000000000
+                dc.w    %0000000000000000
+
 charA           dc.w    %0111000000000000
                 dc.w    %1000100000000000
                 dc.w    %1111100000000000
