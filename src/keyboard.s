@@ -6,6 +6,7 @@
                 ;--------------------- includes and constants ---------------------------
                 INCDIR      "include"
                 INCLUDE     "hw.i"
+                INCLUDE     "hardware/cia.i"
 
 
 STACK_ADDRESS                                       
@@ -18,6 +19,8 @@ start
                 lea     STACK_ADDRESS,a7            ; set stack to start of code (out of harms way)
                 jsr     init_system
                 jsr     init_display
+                jsr     init_keyboard
+
 
                 ;   a0 - ptr to screen buffer
                 ;   a1 - ptr to character
@@ -41,6 +44,8 @@ main
                 ; ------------------ initialise display ---------------------
 init_display
                 lea     CUSTOM,a6
+
+                ; set copper bitplane ptrs
                 lea     bplptrs,a0
                 move.l  #screenbuffer,d0
                 move.w  d0,6(a0)
@@ -49,9 +54,14 @@ init_display
 
                 jsr     clear_screen_buffer
 
+                ; set copper listt
                 lea     copperlist,a0
                 move.l  a0,COP1LC(a6)
                 move.w  #$8380,DMACON(a6)               ; MASTER,BPL,COPPER
+
+                ; enable interrupts
+                move.w  #$c020,INTENA(a6)               ; enable VERTB interrupt
+
                 rts
 
 
@@ -61,6 +71,32 @@ clear_screen_buffer
 .clear_loop     move.l  #0,(a0)+
                 dbra    d7,.clear_loop
                 rts
+
+
+
+
+                ;---------------------- init keyboard -------------------------
+                ; Set up CIAA and INTENA for keyboard control.
+                ;
+                ; timer a - used for keyboard ack, one shot, 85 microseconds
+                ; SP interrupt used to read keycode
+                ; TA interrupt used to cancel keyboard ack signal
+                ;
+init_keyboard
+                lea     CUSTOM,a6
+                lea     $bfe001,a5                          ; CIAA
+
+                bclr.b  #0,ciacra(a5)                       ; stop timer A
+                move.b  #$3d,ciatalo(a5);                   ; 65 approx 85 microseconds for kayboard ack signal
+                move.b  #$00,ciatahi(a5);
+
+                bclr.b  #CIACRAB_SPMODE,ciacra(a5)          ; clear SPMODE bit (input)
+                move.b  #%10001000,ciaicr(a5)               ; Enable SP interrupt (keyboard serial data) - level 2 (PORTS)
+                move.b  #%10000001,ciacra(a5)               ; Enable Timer A interrupt (kayboard ack) - level 2 (PORTS)
+
+                move.w  #$c008,INTENA(a6)                   ; Enable PORTS - Level 2 Interrupt
+                rts
+
 
 
 
@@ -87,23 +123,80 @@ init_system
 .int_loop       move.l  (a0)+,(a1)+                     ; Set autovectors for level 1,2 & 3
                 dbf.w   d7,.int_loop                    ; L000030ee
 
+                ; reset ciaa
+                lea     $bfe001,a5
+                bclr.b  #0,ciacra(a5)                   ; stop timer A
+                bclr.b  #0,ciacrb(a5)                   ; stop timer B
+                move.b  #$7f,ciaicr(a5)                 ; disable ciaa interrupts
 
-                ; enable interrupts
-                move.w  #$c020,INTENA(a6)               ; enable VERTB interrupt
-                move.w  #$c020,INTENA(a6)               ; enable VERTB interrupt
+                ; reset ciab
+                lea     $bfd000,a5
+                bclr.b  #0,ciacra(a5)                   ; stop timer A
+                bclr.b  #0,ciacrb(a5)                   ; stop timer B
+                move.b  #$7f,ciaicr(a5)                 ; disable ciaa interrupts                
+
                 rts
 
 
 
 interrupt_handlers_table
                 dc.l    default_interrupt_handler
-                dc.l    default_interrupt_handler
+                dc.l    level2_interrupt_handler
                 dc.l    level3_interrupt_handler
                 dc.l    default_interrupt_handler
                 dc.l    default_interrupt_handler
                 dc.l    default_interrupt_handler
 
 
+
+
+                ; ---------------------- level 2 interrupt handler -----------------------
+                ; The only Level 2 Interrupt is the PORTS interrupt. Nothing else can
+                ; raise this interrupt. So no need to check the INTREQR bits.
+                ; Just need to clear the PORTS bit when the interrupt is raised.
+                ;
+level2_interrupt_handler
+                movem.l d0-d7/a0-a6,-(a7)
+
+                lea     CUSTOM,a6              
+                lea     $bfe001,a5              ; CIAA
+
+                move.w  #$fff,COLOR00(a6)
+
+                ; read ciaa interrupt bits
+                move.b  ciaicr(a5),d0                   ; read CIAA interrupt control register (also clears it)
+
+                ; check ciaa interrupt
+                btst    #$7,d0
+                beq.s   .exit_level2_handler
+
+                ; check timer a
+.chk_timer_a    btst    #CIAICRB_TA,d0
+                beq.s   .chk_keydata
+.is_timer_a
+                move.w  #$000,COLOR00(a6)
+                bclr.b  #CIACRAB_SPMODE,ciacra(a5)      ; clear SSPMODE (keyboard acknowledge)
+
+                ; check keyboard data
+.chk_keydata    btst    #CIAICRB_SP,d0                  ; test for serial data ready (keyboard)
+                beq.s   .exit_level2_handler
+.is_keyboard
+                move.w  #$f00,COLOR00(a6)
+                move.b  ciasdr(a5),keycode              ; read raw keyboard keycode.
+                bset.b  #CIACRAB_SPMODE,ciacra(a5)      ; set SPMODE (keyboard acknowledge - 85 microseconds)
+                move.b  #$19,ciacra(a5);                ; ciaa - timer a - force load, single shot, start timer A
+
+.exit_level2_handler
+                move.w  #$0008,INTREQ(a6)               ; clear PORTS interrupt
+
+                movem.l (a7)+,d0-d7/a0-a6
+                rte
+
+keycode         dc.b    $0                              ; raw keyboard keycode
+                even
+
+
+                ; ------------------------- level 3 interrupt handler -----------------------
 level3_interrupt_handler
                 movem.l d0-d7/a0-a6,-(a7)
                 lea     CUSTOM,a6
@@ -117,11 +210,14 @@ level3_interrupt_handler
                 and.w  #$0070,d0
                 move.w  d0,INTREQ(a6)
                 movem.l (a7)+,d0-d7/a0-a6
+                rte
+
 
 default_interrupt_handler
                 lea     CUSTOM,a6
                 move.w  #$7fff,INTREQ(a6)
                 rte
+
 
 
 
