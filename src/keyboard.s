@@ -20,7 +20,7 @@ start
                 jsr     init_system
                 jsr     init_display
                 jsr     init_keyboard
-
+                 
 
                 ;   a0 - ptr to screen buffer
                 ;   a1 - ptr to character
@@ -89,6 +89,9 @@ init_keyboard
                 bclr.b  #0,ciacra(a5)                       ; stop timer A
                 move.b  #$3d,ciatalo(a5);                   ; 65 approx 85 microseconds for kayboard ack signal
                 move.b  #$00,ciatahi(a5);
+                bset.b  #3,ciacra(a5);                      ; set one shot mode
+                bclr.b  #0,ciacra(a5)                       ; stop timer A
+
 
                 bclr.b  #CIACRAB_SPMODE,ciacra(a5)          ; clear SPMODE bit (input)
                 move.b  #%10001000,ciaicr(a5)               ; Enable SP interrupt (keyboard serial data) - level 2 (PORTS)
@@ -225,6 +228,69 @@ keycode_table
                 dc.b    ' '             ; $6e - Unassigned
                 dc.b    ' '             ; $6f - Unassigned
 
+                even
+keyboard_buffer_start
+keyboard_queue  dc.b    0,0,0,0,0,0,0,0,0,0
+keyboard_buffer_end
+                even
+keyboard_head   dc.l    keyboard_queue
+keyboard_tail   dc.l    keyboard_queue
+keyboard_count  dc.w    $0
+
+
+                ; ----------------- enqueue keycode ----------------
+                ; enqueue raw keycode into the keyboard queue
+                ; IN:
+                ;   d0.b - raw key code
+                ; OUT:
+                ;   d0.b = 0 for success, -1 if queue is full.
+                ;
+enqueue_keycode cmp.w   #$0a,keyboard_count
+                bge.s   .queue_full
+
+                move.l  a0,-(a7)
+                move.l  keyboard_tail,a0
+                cmp.l   #keyboard_buffer_end,a0
+                bne.s   .no_wrap
+.wrap           move.l  #keyboard_buffer_start,keyboard_tail
+                move.l  keyboard_tail,a0
+.no_wrap        move.b  d0,(a0)+
+                move.l  a0,keyboard_tail
+                add.w   #1,keyboard_count
+                moveq   #0,d0
+                move.l  (a7)+,a0
+                rts
+.queue_full
+                moveq   #-1,d0
+                rts
+
+
+
+                ; ----------------- enqueue keycode ----------------
+                ; enqueue raw keycode into the keyboard queue
+                ; IN:
+                ;   no parameters
+                ; OUT:
+                ;   d0.b - raw key code, or -1 if queue is empty
+                ;
+dequeue_keycode tst.w   keyboard_count
+                beq.s   .queue_empty
+
+                move.l  a0,-(a7)
+                move.l  keyboard_head,a0
+                cmp.l   #keyboard_buffer_end,a0
+                bne.s   .no_wrap
+.wrap           move.l  #keyboard_buffer_start,keyboard_head
+                move.l  keyboard_head,a0
+.no_wrap        move.b  (a0)+,d0
+                move.l  a0,keyboard_head
+                sub.w   #1,keyboard_count
+                move.l  (a7)+,a0
+                rts
+
+.queue_empty
+                moveq   #-1,d0
+                rts
 
 
 
@@ -288,32 +354,47 @@ level2_interrupt_handler
                 movem.l d0-d7/a0-a6,-(a7)
 
                 lea     CUSTOM,a6              
-                lea     $bfe001,a5              ; CIAA
+                move.w  INTREQR(a6),d0
+                and.w   #$0008,d0
+                beq.s   .exit_level2_handler
 
-                move.w  #$fff,COLOR00(a6)
-
-                ; read ciaa interrupt bits
+                moveq   #0,d0
+                lea     $bfe001,a5                      ; CIAA
                 move.b  ciaicr(a5),d0                   ; read CIAA interrupt control register (also clears it)
 
-                ; check ciaa interrupt
-                btst    #$7,d0
-                beq.s   .exit_level2_handler
+                ; check if ciaa interrupt
+                btst.l   #$07,d0                        ; test IR bit.
+                beq.s   .exit_level2_handler            ; not ciaa interrupt
 
-                ; check timer a
-.chk_timer_a    btst    #CIAICRB_TA,d0
+                ; check timer a underflow
+.chk_timer_a    btst.l  #CIAICRB_TA,d0
                 beq.s   .chk_keydata
-.is_timer_a
-                move.w  #$000,COLOR00(a6)
-                bclr.b  #CIACRAB_SPMODE,ciacra(a5)      ; clear SSPMODE (keyboard acknowledge)
 
-                ; check keyboard data
-.chk_keydata    btst    #CIAICRB_SP,d0                  ; test for serial data ready (keyboard)
+                ; end keyboard ack signal
+.is_timer_a     move.b  ciacra(a5),d1
+                and.b   #%10111110,d1                   ; clear SPMODE (keyboard acknowledge), force timer stop
+                move.b  d1,ciacra(a5)       
+                move.w  #$000,$dff180
+
+                ; check keyboard serial data
+.chk_keydata    btst    #$03,d0                         ; test for serial data ready (keyboard)
                 beq.s   .exit_level2_handler
-.is_keyboard
-                move.w  #$f00,COLOR00(a6)
-                move.b  ciasdr(a5),keycode              ; read raw keyboard keycode.
-                bset.b  #CIACRAB_SPMODE,ciacra(a5)      ; set SPMODE (keyboard acknowledge - 85 microseconds)
-                move.b  #$19,ciacra(a5);                ; ciaa - timer a - force load, single shot, start timer A
+
+                ; get keycode & start keyboard ack signal
+.is_keyboard    move.b  ciasdr(a5),d0                   ; read raw keyboard keycode.
+                not.b   d0
+                ror.b   #1,d0
+                move.b  ciacra(a5),d1              
+                or.b    #%01011001,d1                   ; ciaa - timer a - single shot, set SPMODE (keyboard acknowledge)
+                move.b  d1,ciacra(a5)
+                move.w  #$f00,$dff180
+
+                ; add keycode to queue
+                bsr     enqueue_keycode
+                tst.b   d0
+                beq.s   .exit_level2_handler
+
+                move.w  #$fff,$dff180
 
 .exit_level2_handler
                 move.w  #$0008,INTREQ(a6)               ; clear PORTS interrupt
@@ -321,8 +402,11 @@ level2_interrupt_handler
                 movem.l (a7)+,d0-d7/a0-a6
                 rte
 
-keycode         dc.b    $0                              ; raw keyboard keycode
-                even
+
+
+
+
+
 
 
                 ; ------------------------- level 3 interrupt handler -----------------------
