@@ -99,6 +99,135 @@ init_keyboard
 
 
 
+                ; ---------------------- keycode translation table --------------------
+                ; table of keycodes to characters, the keycode index into the table
+                ; identifies the character for use by that key.
+                ;
+                ; Table Range = $00 to $6f
+                ;
+keycode_table
+                dc.b    '`'             ; $00
+                dc.b    '1'
+                dc.b    '2'
+                dc.b    '3'
+                dc.b    '4'
+                dc.b    '5'
+                dc.b    '6'
+                dc.b    '7'
+                dc.b    '8'
+                dc.b    '9'
+                dc.b    '0'             ; $0a
+                dc.b    '-'
+                dc.b    '='
+                dc.b    '\'
+                dc.b    ' '             ; $0e - Unassigned
+                dc.b    '0'             ; $0f - keypad - 0
+
+                dc.b    'Q'             ; $10
+                dc.b    'W'
+                dc.b    'E'
+                dc.b    'R'
+                dc.b    'T'
+                dc.b    'Y'
+                dc.b    'U'
+                dc.b    'I'
+                dc.b    'O'
+                dc.b    'P'
+                dc.b    '['
+                dc.b    ']'             ; $1B
+                dc.b    ' '             ; $1c - Unassigned
+                dc.b    '1'             ; $1d - keypad - 1
+                dc.b    '2'             ; $1e - keypad - 2
+                dc.b    '3'             ; $1f - keypad - 3
+
+                dc.b    'A'             ; $20
+                dc.b    'S'
+                dc.b    'D'
+                dc.b    'F'
+                dc.b    'G'
+                dc.b    'H'
+                dc.b    'J'
+                dc.b    'K'
+                dc.b    'L'
+                dc.b    ';'
+                dc.b    '''
+                dc.b    '#'             ; $2B
+                dc.b    ' '             ; $2c - Unassigned
+                dc.b    '4'             ; $2d - keypad - 4
+                dc.b    '5'             ; $2e - keypad - 5
+                dc.b    '6'             ; $2f - keypad - 6
+
+                dc.b    '\'             ; $30
+                dc.b    'Z'
+                dc.b    'X'
+                dc.b    'C'
+                dc.b    'V'
+                dc.b    'B'
+                dc.b    'N'
+                dc.b    'M'
+                dc.b    ','
+                dc.b    '.'
+                dc.b    '/'
+                dc.b    ' '             ; $3b - Unassigned
+                dc.b    ' '             ; $3c - Unassigned
+                dc.b    '7'             ; $3d - keypad - 7
+                dc.b    '8'             ; $3e - keypad - 8
+                dc.b    '9'             ; $3f - keypad - 9
+
+                dc.b    ' '             ; $40 - space
+                dc.b    ' '             ; $41 - back space
+                dc.b    ' '             ; $42 - tab
+                dc.b    ' '             ; $43 - keypad - enter
+                dc.b    ' '             ; $44 - keyboard - enter
+                dc.b    ' '             ; $45 - Escape
+                dc.b    ' '             ; $46 - Delete
+                dc.b    ' '             ; $47 - Unassigned
+                dc.b    ' '             ; $48 - Unassigned
+                dc.b    ' '             ; $49 - Unassigned
+                dc.b    '-'             ; $4a - keypad minus
+                dc.b    ' '             ; $4b - Unassigned
+                ; cursor keys
+                dc.b    ' '             ; $4c - Cursor Up
+                dc.b    ' '             ; $4d - Cursor Down
+                dc.b    ' '             ; $4e - Cursor Right
+                dc.b    ' '             ; $4f - Cursor Left
+                ; function keys $50 - $59
+                dc.b    ' '             ; $50 - F1
+                dc.b    ' '             ; $51 - F2
+                dc.b    ' '             ; $52 - F3
+                dc.b    ' '             ; $53 - F4
+                dc.b    ' '             ; $54 - F5
+                dc.b    ' '             ; $55 - F6
+                dc.b    ' '             ; $56 - F7
+                dc.b    ' '             ; $57 - F8
+                dc.b    ' '             ; $58 - F9
+                dc.b    ' '             ; $59 - F10
+                dc.b    '('             ; $5a - keypad (
+                dc.b    ')'             ; $5b - keypad )
+                dc.b    '/'             ; $5c - keypad /
+                dc.b    '*'             ; $5d - keypad *
+                dc.b    '+'             ; $5e - keypad +
+                dc.b    ' '             ; $5f - Help
+                dc.b    ' '             ; $60 - Left Shift
+                dc.b    ' '             ; $61 - Right Shift
+                dc.b    ' '             ; $62 - Caps Lock
+                dc.b    ' '             ; $63 - Left CTRL
+                dc.b    ' '             ; $64 - Left ALT
+                dc.b    ' '             ; $65 - Right ALT
+                dc.b    ' '             ; $66 - Left AMIGA
+                dc.b    ' '             ; $67 - Right AMIGA
+                dc.b    ' '             ; $68 - Unassigned
+                dc.b    ' '             ; $69 - Unassigned
+                dc.b    ' '             ; $6a - Unassigned
+                dc.b    ' '             ; $6b - Unassigned
+                dc.b    ' '             ; $6c - Unassigned
+                dc.b    ' '             ; $6d - Unassugned
+                dc.b    ' '             ; $6e - Unassigned
+                dc.b    ' '             ; $6f - Unassigned
+
+
+
+
 
                 ; ------------------ initialise system ---------------------
 init_system
