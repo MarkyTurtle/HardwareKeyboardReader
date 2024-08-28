@@ -177,7 +177,7 @@ keycode_table
                 dc.b    '8'             ; $3e - keypad - 8
                 dc.b    '9'             ; $3f - keypad - 9
 
-                dc.b    ' '             ; $40 - space
+                dc.b    $20             ; $40 - space
                 dc.b    ' '             ; $41 - back space
                 dc.b    ' '             ; $42 - tab
                 dc.b    ' '             ; $43 - keypad - enter
@@ -381,13 +381,16 @@ level2_interrupt_handler
                 beq.s   .exit_level2_handler
 
                 ; get keycode & start keyboard ack signal
-.is_keyboard    move.b  ciasdr(a5),d0                   ; read raw keyboard keycode.
+.is_keyboard    move.b  ciasdr(a5),d0                   ; read raw keyboard keycode.              
                 not.b   d0
                 ror.b   #1,d0
                 move.b  ciacra(a5),d1              
                 or.b    #%01011001,d1                   ; ciaa - timer a - single shot, set SPMODE (keyboard acknowledge)
                 move.b  d1,ciacra(a5)
                 move.w  #$f00,$dff180
+
+                cmp.b   #$ff,d0
+                beq.s   .exit_level2_handler
 
                 ; add keycode to queue
                 bsr     enqueue_keycode
@@ -415,9 +418,25 @@ level3_interrupt_handler
                 lea     CUSTOM,a6
                 move.w  INTREQR(a6),d0
 
+
+ 
                 btst.l  #5,d0
                 beq     .end_handler
 
+                moveq   #0,d0
+                jsr     dequeue_keycode
+                tst.b   d0
+                blt.s   .end_handler
+
+                ; map keycode
+                lea     keycode_table,a0
+                move.b  (a0,d0.w),d0
+
+                ; display character
+                lea     screenbuffer,a0
+                jsr     display_character
+                move.w  #6,d0
+                jsr     add_cursor_x
 
 .end_handler
                 and.w  #$0070,d0
@@ -573,6 +592,11 @@ end_loop        rts
                 ;   a0.l - ptr to screen buffer
                 ;   d0.b - character to display
 display_character
+                cmp.b   #$20,d0
+                bne.s   .do_display_character
+                rts
+
+.do_display_character 
                 movem.l d0-d7/a0-a2,-(sp)
                 ; calculate disply buffer location
                 move.w  cursor_x,d1         ; pixel value
