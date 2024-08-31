@@ -78,126 +78,127 @@ clear_screen_buffer
                 ;
                 ; Table Range = $00 to $6f
                 ;
+                even
 keycode_table
-                dc.b    '`'             ; $00
-                dc.b    '1'
-                dc.b    '2'
-                dc.b    '3'
-                dc.b    '4'
-                dc.b    '5'
-                dc.b    '6'
-                dc.b    '7'
-                dc.b    '8'
-                dc.b    '9'
-                dc.b    '0'             ; $0a
-                dc.b    '-'
-                dc.b    '='
-                dc.b    '\'
-                dc.b    ' '             ; $0e - Unassigned
-                dc.b    '0'             ; $0f - keypad - 0
+                dc.b    '`',' '        ; $00
+                dc.b    '1','!'
+                dc.b    '2','"'
+                dc.b    '3','#'
+                dc.b    '4','$'
+                dc.b    '5','%'
+                dc.b    '6','^'
+                dc.b    '7','&'
+                dc.b    '8','*'
+                dc.b    '9','('
+                dc.b    '0',')'             ; $0a
+                dc.b    '-','_'
+                dc.b    '=','+'
+                dc.b    '\','|'
+                dc.b    ' ',' '             ; $0e - Unassigned
+                dc.b    '0','0'             ; $0f - keypad - 0
 
-                dc.b    'Q'             ; $10
-                dc.b    'W'
-                dc.b    'E'
-                dc.b    'R'
-                dc.b    'T'
-                dc.b    'Y'
-                dc.b    'U'
-                dc.b    'I'
-                dc.b    'O'
-                dc.b    'P'
-                dc.b    '['
-                dc.b    ']'             ; $1B
-                dc.b    ' '             ; $1c - Unassigned
-                dc.b    '1'             ; $1d - keypad - 1
-                dc.b    '2'             ; $1e - keypad - 2
-                dc.b    '3'             ; $1f - keypad - 3
+                dc.b    'Q','Q'             ; $10
+                dc.b    'W','W'
+                dc.b    'E','E'
+                dc.b    'R','R'
+                dc.b    'T','T'
+                dc.b    'Y','Y'
+                dc.b    'U','U'
+                dc.b    'I','I'
+                dc.b    'O','O'
+                dc.b    'P','P'
+                dc.b    '[','{'
+                dc.b    ']','}'             ; $1B
+                dc.b    ' ',' '             ; $1c - Unassigned
+                dc.b    '1','1'             ; $1d - keypad - 1
+                dc.b    '2','2'             ; $1e - keypad - 2
+                dc.b    '3','3'             ; $1f - keypad - 3
 
-                dc.b    'A'             ; $20
-                dc.b    'S'
-                dc.b    'D'
-                dc.b    'F'
-                dc.b    'G'
-                dc.b    'H'
-                dc.b    'J'
-                dc.b    'K'
-                dc.b    'L'
-                dc.b    ';'
-                dc.b    '''
-                dc.b    '#'             ; $2B
-                dc.b    ' '             ; $2c - Unassigned
-                dc.b    '4'             ; $2d - keypad - 4
-                dc.b    '5'             ; $2e - keypad - 5
-                dc.b    '6'             ; $2f - keypad - 6
+                dc.b    'A','A'             ; $20
+                dc.b    'S','S'
+                dc.b    'D','D'
+                dc.b    'F','F'
+                dc.b    'G','G'
+                dc.b    'H','H'
+                dc.b    'J','J'
+                dc.b    'K','K'
+                dc.b    'L','L'
+                dc.b    ';',':'
+                dc.b    "'",'@'
+                dc.b    '#','~'             ; $2B
+                dc.b    ' ',' '             ; $2c - Unassigned
+                dc.b    '4','4'             ; $2d - keypad - 4
+                dc.b    '5','5'             ; $2e - keypad - 5
+                dc.b    '6','6'             ; $2f - keypad - 6
 
-                dc.b    '\'             ; $30
-                dc.b    'Z'
-                dc.b    'X'
-                dc.b    'C'
-                dc.b    'V'
-                dc.b    'B'
-                dc.b    'N'
-                dc.b    'M'
-                dc.b    ','
-                dc.b    '.'
-                dc.b    '/'
-                dc.b    ' '             ; $3b - Unassigned
-                dc.b    ' '             ; $3c - Unassigned
-                dc.b    '7'             ; $3d - keypad - 7
-                dc.b    '8'             ; $3e - keypad - 8
-                dc.b    '9'             ; $3f - keypad - 9
+                dc.b    '\','|'             ; $30
+                dc.b    'Z','Z'
+                dc.b    'X','X'
+                dc.b    'C','C'
+                dc.b    'V','V'
+                dc.b    'B','B'
+                dc.b    'N','N'
+                dc.b    'M','M'
+                dc.b    ',','<'
+                dc.b    '.','>'
+                dc.b    '/','?'
+                dc.b    ' ',' '             ; $3b - Unassigned
+                dc.b    ' ',' '             ; $3c - Unassigned
+                dc.b    '7','7'             ; $3d - keypad - 7
+                dc.b    '8','8'             ; $3e - keypad - 8
+                dc.b    '9','9'             ; $3f - keypad - 9
 
-                dc.b    $20             ; $40 - space
-                dc.b    ' '             ; $41 - back space
-                dc.b    ' '             ; $42 - tab
-                dc.b    $13             ; $43 - keypad - enter
-                dc.b    $13             ; $44 - keyboard - enter
-                dc.b    ' '             ; $45 - Escape
-                dc.b    ' '             ; $46 - Delete
-                dc.b    ' '             ; $47 - Unassigned
-                dc.b    ' '             ; $48 - Unassigned
-                dc.b    ' '             ; $49 - Unassigned
-                dc.b    '-'             ; $4a - keypad minus
-                dc.b    ' '             ; $4b - Unassigned
+                dc.b    $20,$20             ; $40 - space
+                dc.b    $08,$08             ; $41 - back space
+                dc.b    ' ',' '             ; $42 - tab
+                dc.b    $13,$13             ; $43 - keypad - enter
+                dc.b    $13,$13             ; $44 - keyboard - enter
+                dc.b    ' ',' '             ; $45 - Escape
+                dc.b    ' ',' '             ; $46 - Delete
+                dc.b    ' ',' '             ; $47 - Unassigned
+                dc.b    ' ',' '             ; $48 - Unassigned
+                dc.b    ' ',' '             ; $49 - Unassigned
+                dc.b    '-','-'             ; $4a - keypad minus
+                dc.b    ' ',' '             ; $4b - Unassigned
                 ; cursor keys
-                dc.b    ' '             ; $4c - Cursor Up
-                dc.b    ' '             ; $4d - Cursor Down
-                dc.b    ' '             ; $4e - Cursor Right
-                dc.b    ' '             ; $4f - Cursor Left
+                dc.b    ' ',' '             ; $4c - Cursor Up
+                dc.b    ' ',' '             ; $4d - Cursor Down
+                dc.b    ' ',' '             ; $4e - Cursor Right
+                dc.b    ' ',' '             ; $4f - Cursor Left
                 ; function keys $50 - $59
-                dc.b    ' '             ; $50 - F1
-                dc.b    ' '             ; $51 - F2
-                dc.b    ' '             ; $52 - F3
-                dc.b    ' '             ; $53 - F4
-                dc.b    ' '             ; $54 - F5
-                dc.b    ' '             ; $55 - F6
-                dc.b    ' '             ; $56 - F7
-                dc.b    ' '             ; $57 - F8
-                dc.b    ' '             ; $58 - F9
-                dc.b    ' '             ; $59 - F10
-                dc.b    '('             ; $5a - keypad (
-                dc.b    ')'             ; $5b - keypad )
-                dc.b    '/'             ; $5c - keypad /
-                dc.b    '*'             ; $5d - keypad *
-                dc.b    '+'             ; $5e - keypad +
-                dc.b    ' '             ; $5f - Help
-                dc.b    ' '             ; $60 - Left Shift
-                dc.b    ' '             ; $61 - Right Shift
-                dc.b    ' '             ; $62 - Caps Lock
-                dc.b    ' '             ; $63 - Left CTRL
-                dc.b    ' '             ; $64 - Left ALT
-                dc.b    ' '             ; $65 - Right ALT
-                dc.b    ' '             ; $66 - Left AMIGA
-                dc.b    ' '             ; $67 - Right AMIGA
-                dc.b    ' '             ; $68 - Unassigned
-                dc.b    ' '             ; $69 - Unassigned
-                dc.b    ' '             ; $6a - Unassigned
-                dc.b    ' '             ; $6b - Unassigned
-                dc.b    ' '             ; $6c - Unassigned
-                dc.b    ' '             ; $6d - Unassugned
-                dc.b    ' '             ; $6e - Unassigned
-                dc.b    ' '             ; $6f - Unassigned
-
+                dc.b    ' ',' '             ; $50 - F1
+                dc.b    ' ',' '             ; $51 - F2
+                dc.b    ' ',' '             ; $52 - F3
+                dc.b    ' ',' '             ; $53 - F4
+                dc.b    ' ',' '             ; $54 - F5
+                dc.b    ' ',' '             ; $55 - F6
+                dc.b    ' ',' '             ; $56 - F7
+                dc.b    ' ',' '             ; $57 - F8
+                dc.b    ' ',' '             ; $58 - F9
+                dc.b    ' ',' '             ; $59 - F10
+                dc.b    '(','('             ; $5a - keypad (
+                dc.b    ')',')'             ; $5b - keypad )
+                dc.b    '/','/'             ; $5c - keypad /
+                dc.b    '*','*'             ; $5d - keypad *
+                dc.b    '+','+'             ; $5e - keypad +
+                dc.b    ' ',' '             ; $5f - Help
+                dc.b    ' ',' '             ; $60 - Left Shift
+                dc.b    ' ',' '             ; $61 - Right Shift
+                dc.b    ' ',' '             ; $62 - Caps Lock
+                dc.b    ' ',' '             ; $63 - Left CTRL
+                dc.b    ' ',' '             ; $64 - Left ALT
+                dc.b    ' ',' '             ; $65 - Right ALT
+                dc.b    ' ',' '             ; $66 - Left AMIGA
+                dc.b    ' ',' '             ; $67 - Right AMIGA
+                dc.b    ' ',' '             ; $68 - Unassigned
+                dc.b    ' ',' '             ; $69 - Unassigned
+                dc.b    ' ',' '             ; $6a - Unassigned
+                dc.b    ' ',' '             ; $6b - Unassigned
+                dc.b    ' ',' '             ; $6c - Unassigned
+                dc.b    ' ',' '             ; $6d - Unassugned
+                dc.b    ' ',' '             ; $6e - Unassigned
+                dc.b    ' ',' '             ; $6f - Unassigned
+                even
 
 
 
@@ -289,7 +290,8 @@ level2_interrupt_handler
 
 
 
-
+shift_pressed   dc.b    $00
+                even
 
                 ; ------------------------- level 3 interrupt handler -----------------------
 level3_interrupt_handler
@@ -297,28 +299,57 @@ level3_interrupt_handler
                 lea     CUSTOM,a6
                 move.w  INTREQR(a6),d0
 
-
- 
                 btst.l  #5,d0
                 beq     .end_handler
 
                 moveq   #0,d0
                 jsr     dequeue_keycode
+                cmp.b   #$ff,d0
+                beq     .end_handler
+
+                ; check for modifier keys
+
+                ; check shift key down
+.chk_lshft_down cmp.b   #$60,d0             ; shift down
+                bne.s   .chk_lshift_up
+                st.b    shift_pressed
+                bra     .end_handler
+
+                ; check shift key up
+.chk_lshift_up  cmp.b   #$e0,d0             ; shift up
+                bne.s   .not_modifier
+                sf.b    shift_pressed
+                bra     .end_handler
+
+.not_modifier
                 tst.b   d0
-                blt.s   .end_handler
+                blt     .end_handler
 
                 ; map keycode
                 lea     keycode_table,a0
-                move.b  (a0,d0.w),d0
+                lsl.w   #1,d0               ; d0 * 2 - map shifted keys also (2 different characters per key code)
+                tst.b   shift_pressed
+                beq.s   .get_char
+                add.w   #1,d0
+.get_char       move.b  (a0,d0.w),d0
 
                 ; check enter key
-                cmp.b   #$13,d0
-                bne.s   .print_char
+.chk_enter      cmp.b   #$13,d0
+                bne.s   .chk_backspace
 
                 ; is enter key
                 move.w  #$0,cursor_x
                 add.w   #$8,cursor_y
                 bra.s   .end_handler
+
+                ; check backspace key
+.chk_backspace  cmp.b   #$08,d0
+                bne.s   .print_char
+
+                bsr     cursor_left
+                lea     screenbuffer,a0
+                bsr     erase_character
+                bra     .end_handler
 
                 ; display character
 .print_char     lea     screenbuffer,a0
@@ -358,10 +389,22 @@ bplptrs         dc.w    BPL1PTH,$0000               ; set bitplane ptr
                 dc.w    COLOR00,$0000               ; background = black
                 dc.w    COLOR01,$0fff               ; foreground = white
 
-                dc.w    $4001,$fffe
-                dc.w    COLOR00,$000f
-                dc.w    $4101,$fffe
-                dc.w    COLOR00,$0000
+                dc.w    $3101,$fffe,COLOR00,$000f,$3201,$fffe,COLOR00,$0000
+                dc.w    $3901,$fffe,COLOR00,$000f,$3a01,$fffe,COLOR00,$0000
+                dc.w    $4101,$fffe,COLOR00,$000f,$4201,$fffe,COLOR00,$0000
+                dc.w    $4901,$fffe,COLOR00,$000f,$4a01,$fffe,COLOR00,$0000
+                dc.w    $5101,$fffe,COLOR00,$000f,$5201,$fffe,COLOR00,$0000
+                dc.w    $5901,$fffe,COLOR00,$000f,$5a01,$fffe,COLOR00,$0000
+                dc.w    $6101,$fffe,COLOR00,$000f,$6201,$fffe,COLOR00,$0000
+                dc.w    $6901,$fffe,COLOR00,$000f,$6a01,$fffe,COLOR00,$0000
+                dc.w    $7101,$fffe,COLOR00,$000f,$7201,$fffe,COLOR00,$0000
+                dc.w    $7901,$fffe,COLOR00,$000f,$7a01,$fffe,COLOR00,$0000
+                dc.w    $8101,$fffe,COLOR00,$000f,$8201,$fffe,COLOR00,$0000
+                dc.w    $8901,$fffe,COLOR00,$000f,$8a01,$fffe,COLOR00,$0000
+                dc.w    $9101,$fffe,COLOR00,$000f,$9201,$fffe,COLOR00,$0000
+                dc.w    $9901,$fffe,COLOR00,$000f,$9a01,$fffe,COLOR00,$0000
+                dc.w    $a101,$fffe,COLOR00,$000f,$a201,$fffe,COLOR00,$0000
+                dc.w    $a901,$fffe,COLOR00,$000f,$aa01,$fffe,COLOR00,$0000
 
                 dc.w    $ffff,$fffe
                 dc.w    $ffff,$fffe
@@ -370,17 +413,15 @@ bplptrs         dc.w    BPL1PTH,$0000               ; set bitplane ptr
 
                 even
 textstring      
-                dc.b    "abcdefghijklmnopqrstuvwxyz",13,10
-                dc.b    "a b c d e f g h i j k l m n o p q r s t u v w x y z",13,10
-                dc.b    "tab",09,"test",09,09,"tab",09,"test",09,"tab",13,10
-                dc.b    "tab",09,"test",09,"tab",09,"test",09,"tab",13,10
-                dc.b    "tab",09,"test",09,"tabtab",09,"testtest",09,"tabtabtab",09,"testtesttest",13,10
-                dc.b    "0 1 2 3 4 5 6 7 8 9",13,10
+                dc.b    "**************************************",13,10
+                dc.b    "     Test Keyboard Handler & Typer    ",13,10
+                dc.b    "**************************************",13,10,13,10
+                dc.b    "Use the keyboard to start typing text below.",13,10
+                dc.b    "'backspace' - erase a character",13,10
+                dc.b    "'enter' - move to start of next line.",13,10
                 dc.b    13,10
-                dc.b    34,"Double Quotes",34
                 dc.b    13,10
-                dc.b    "! ",34," # $ % & ' ( ) * + , - . ",13,10
-                dc.b    0,0,0,0
+                dc.b    0,0
 
 
                 even
@@ -407,6 +448,13 @@ set_cursor_x
                 bcs.s   .set_cursor_x
                 move.w  display_width,d0
 .set_cursor_x   move.w  d0,cursor_x
+                rts
+
+cursor_left     
+                move.l  d0,-(a7)
+                moveq   #-6,d0
+                bsr     add_cursor_x
+                movem.l (a7)+,d0
                 rts
 
 
@@ -549,6 +597,73 @@ display_character
 
 
 
+
+erase_character
+                movem.l d0-d7/a0-a2,-(sp)
+                ; calculate disply buffer location
+                moveq   #0,d1
+                moveq   #0,d2
+                move.w  cursor_x,d1         ; pixel value
+                move.w  d1,d2
+                asr.w   #3,d2               ; d2/8 = byte offset
+                and.w   #$0007,d1           ; d1 = pixel shift
+
+                move.w  cursor_y,d3         ; d3 = pixel value
+                move.w  d3,d4
+                mulu    #40,d4              ; d4 = byte offset
+
+                add.w   d2,d4
+                lea     (a0,d4),a0          ; a0 = byte start value - destination
+                                            ; d0 = pixel shift
+                
+                lea     char_erase,a2
+
+                move.w  d1,d0
+                movem.w (a2)+,d1-d7
+                ror.w   d0,d1
+                and.b   d1,1(a0)
+                ror.w   #8,d1
+                and.b   d1,(a0)
+
+                ror.w   d0,d2
+                and.b   d2,41(a0)
+                ror.w   #8,d2
+                and.b   d2,40(a0)
+
+                ror.w   d0,d3
+                and.b   d3,81(a0)
+                ror.w   #8,d3
+                and.b   d3,80(a0)
+
+                ror.w   d0,d4
+                and.b   d4,121(a0)
+                ror.w   #8,d4
+                and.b   d4,120(a0)
+
+                ror.w   d0,d5
+                and.b   d5,161(a0)
+                ror.w   #8,d5
+                and.b   d5,160(a0)
+
+                ror.w   d0,d6
+                and.b   d6,201(a0)
+                ror.w   #8,d6
+                and.b   d6,200(a0)
+
+                ror.w   d0,d7
+                and.b   d7,241(a0)
+                ror.w   #8,d7
+                and.b   d7,240(a0)     
+
+                movem.l (sp)+,d0-d7/a0-a2
+                rts
+
+
+
+
+
+
+
                 ; ---------------------- chip mem buffers ----------------------
                 even
 screenbuffer    dcb.b   40*256,$f0
@@ -582,13 +697,13 @@ character_table
                 dc.l    char8           ; 8
                 dc.l    char9           ; 9
 
-                dc.l    char_UNDEF      ; :
-                dc.l    char_UNDEF      ; ;
-                dc.l    char_UNDEF      ; <
-                dc.l    char_UNDEF      ; =
-                dc.l    char_UNDEF      ; >
-                dc.l    char_UNDEF      ; ?
-                dc.l    char_UNDEF      ; @
+                dc.l    char_colon      ; :
+                dc.l    char_semicolon  ; ;
+                dc.l    char_leftangle  ; <
+                dc.l    char_equals     ; =
+                dc.l    char_rightangle ; >
+                dc.l    char_question   ; ?
+                dc.l    char_at         ; @
 
                 dc.l    charA           ; A
                 dc.l    charB           ; B
@@ -617,12 +732,12 @@ character_table
                 dc.l    charY           ; Y
                 dc.l    charZ           ; Z
 
-                dc.l    char_UNDEF      ; [
-                dc.l    char_UNDEF      ; \
-                dc.l    char_UNDEF      ; ]
-                dc.l    char_UNDEF      ; ^
-                dc.l    char_UNDEF      ; _
-                dc.l    char_UNDEF      ; `
+                dc.l    char_leftsquare     ; [
+                dc.l    char_backslash      ; \
+                dc.l    char_rightsquare    ; ]
+                dc.l    char_carot          ; ^
+                dc.l    char_underscore     ; _
+                dc.l    char_backtick   ; `
 
                 dc.l    charA           ; a
                 dc.l    charB           ; b
@@ -668,6 +783,22 @@ char_UNDEF      dc.w    %1111100000000000
                 dc.w    %0000000000000000
                 dc.w    %0000000000000000
 
+char_block      dc.w    %1111100000000000
+                dc.w    %1111100000000000
+                dc.w    %1111100000000000
+                dc.w    %1111100000000000
+                dc.w    %1111100000000000
+                dc.w    %0000000000000000
+                dc.w    %0000000000000000
+
+char_erase      dc.w    %0000011111111111
+                dc.w    %0000011111111111
+                dc.w    %0000011111111111
+                dc.w    %0000011111111111
+                dc.w    %0000011111111111
+                dc.w    %0000011111111111
+                dc.w    %0000011111111111
+
 
 char_Exclaimation
                 dc.w    %0010000000000000
@@ -689,23 +820,107 @@ char_DoubleQuote
 char_Hash
                 dc.w    %0101000000000000
                 dc.w    %1111100000000000
-                dc.w    %0101100000000000
+                dc.w    %0101000000000000
                 dc.w    %1111100000000000
                 dc.w    %0101000000000000
                 dc.w    %0000000000000000
                 dc.w    %0000000000000000
-char_Dollar
-char_Percentage
-char_Ampersand
-char_Quote
-char_LeftPar
-char_RightPar
-char_Asterisk
-char_Plus
-char_Comma
-char_minus
-char_Period
-char_FSlash
+
+char_Dollar     dc.w    %0111000000000000
+                dc.w    %1010000000000000
+                dc.w    %0111000000000000
+                dc.w    %0010100000000000
+                dc.w    %0111000000000000
+                dc.w    %0000000000000000
+                dc.w    %0000000000000000
+
+char_Percentage dc.w    %1001000000000000
+                dc.w    %0001000000000000
+                dc.w    %0010000000000000
+                dc.w    %0100000000000000
+                dc.w    %0100100000000000
+                dc.w    %0000000000000000
+                dc.w    %0000000000000000
+
+char_Ampersand  dc.w    %0110000000000000
+                dc.w    %1010000000000000
+                dc.w    %1110100000000000
+                dc.w    %1001000000000000
+                dc.w    %0110100000000000
+                dc.w    %0000000000000000
+                dc.w    %0000000000000000
+
+char_Quote      dc.w    %0100000000000000
+                dc.w    %0100000000000000
+                dc.w    %0000000000000000
+                dc.w    %0000000000000000
+                dc.w    %0000000000000000
+                dc.w    %0000000000000000
+                dc.w    %0000000000000000
+
+char_LeftPar    dc.w    %0011000000000000
+                dc.w    %0100000000000000
+                dc.w    %1000000000000000
+                dc.w    %0100000000000000
+                dc.w    %0011000000000000
+                dc.w    %0000000000000000
+                dc.w    %0000000000000000
+
+char_RightPar   dc.w    %0110000000000000
+                dc.w    %0001000000000000
+                dc.w    %0000100000000000
+                dc.w    %0001000000000000
+                dc.w    %0110000000000000
+                dc.w    %0000000000000000
+                dc.w    %0000000000000000
+
+char_Asterisk   dc.w    %1010100000000000
+                dc.w    %0111000000000000
+                dc.w    %1111100000000000
+                dc.w    %0111000000000000
+                dc.w    %1010100000000000
+                dc.w    %0000000000000000
+                dc.w    %0000000000000000
+
+char_Plus       dc.w    %0000000000000000
+                dc.w    %0010000000000000
+                dc.w    %0111000000000000
+                dc.w    %0010000000000000
+                dc.w    %0000000000000000
+                dc.w    %0000000000000000
+                dc.w    %0000000000000000
+
+char_Comma      dc.w    %0000000000000000
+                dc.w    %0000000000000000
+                dc.w    %0000000000000000
+                dc.w    %1100000000000000
+                dc.w    %1000000000000000
+                dc.w    %0000000000000000
+                dc.w    %0000000000000000
+
+char_minus      dc.w    %0000000000000000
+                dc.w    %0000000000000000
+                dc.w    %0111000000000000
+                dc.w    %0000000000000000
+                dc.w    %0000000000000000
+                dc.w    %0000000000000000
+                dc.w    %0000000000000000
+
+char_Period     dc.w    %0000000000000000
+                dc.w    %0000000000000000
+                dc.w    %0000000000000000
+                dc.w    %1100000000000000
+                dc.w    %1100000000000000
+                dc.w    %0000000000000000
+                dc.w    %0000000000000000
+
+char_FSlash     dc.w    %0011000000000000
+                dc.w    %0011000000000000
+                dc.w    %0110000000000000
+                dc.w    %1100000000000000
+                dc.w    %1100000000000000
+                dc.w    %0000000000000000
+                dc.w    %0000000000000000
 
 char0           dc.w    %0111000000000000
                 dc.w    %1001100000000000
@@ -787,6 +1002,64 @@ char9           dc.w    %0111000000000000
                 dc.w    %0000000000000000
                 dc.w    %0000000000000000
 
+char_colon      dc.w    %0000000000000000
+                dc.w    %0110000000000000
+                dc.w    %0000000000000000
+                dc.w    %0110000000000000
+                dc.w    %0000000000000000
+                dc.w    %0000000000000000
+                dc.w    %0000000000000000
+
+char_semicolon  dc.w    %0000000000000000
+                dc.w    %0110000000000000
+                dc.w    %0000000000000000
+                dc.w    %0100000000000000
+                dc.w    %0000000000000000
+                dc.w    %0000000000000000
+                dc.w    %0000000000000000
+
+char_leftangle  dc.w    %0001100000000000
+                dc.w    %0110000000000000
+                dc.w    %1000000000000000
+                dc.w    %0110000000000000
+                dc.w    %0001100000000000
+                dc.w    %0000000000000000
+                dc.w    %0000000000000000
+
+char_equals     dc.w    %0000000000000000
+                dc.w    %0111000000000000
+                dc.w    %0000000000000000
+                dc.w    %0111000000000000
+                dc.w    %0000000000000000
+                dc.w    %0000000000000000
+                dc.w    %0000000000000000
+
+char_rightangle dc.w    %1100000000000000
+                dc.w    %0011000000000000
+                dc.w    %0000100000000000
+                dc.w    %0011000000000000
+                dc.w    %1100000000000000
+                dc.w    %0000000000000000
+                dc.w    %0000000000000000
+
+char_question   dc.w    %0111000000000000
+                dc.w    %1000100000000000
+                dc.w    %0011000000000000
+                dc.w    %0000000000000000
+                dc.w    %0010000000000000
+                dc.w    %0000000000000000
+                dc.w    %0000000000000000
+
+
+char_at         dc.w    %0111000000000000
+                dc.w    %1001100000000000
+                dc.w    %1010100000000000
+                dc.w    %1001100000000000
+                dc.w    %0111000000000000
+                dc.w    %0000000000000000
+                dc.w    %0000000000000000
+
+
 charA           dc.w    %0111000000000000
                 dc.w    %1000100000000000
                 dc.w    %1111100000000000
@@ -836,7 +1109,7 @@ charF           dc.w    %1111100000000000
                 dc.w    %0000000000000000
 
 charG           dc.w    %0111000000000000
-                dc.w    %1000100000000000
+                dc.w    %1000000000000000
                 dc.w    %1001100000000000
                 dc.w    %1000100000000000
                 dc.w    %0111000000000000
@@ -934,7 +1207,7 @@ charR           dc.w    %0111000000000000
 charS           dc.w    %0111100000000000
                 dc.w    %1000000000000000
                 dc.w    %0111000000000000
-                dc.w    %1000100000000000
+                dc.w    %0000100000000000
                 dc.w    %1111000000000000
                 dc.w    %0000000000000000
                 dc.w    %0000000000000000
@@ -992,6 +1265,56 @@ charZ           dc.w    %1111100000000000
                 dc.w    %0111000000000000
                 dc.w    %1000000000000000
                 dc.w    %1111100000000000
+                dc.w    %0000000000000000
+                dc.w    %0000000000000000
+
+char_leftsquare dc.w    %1111000000000000
+                dc.w    %1000000000000000
+                dc.w    %1000000000000000
+                dc.w    %1000000000000000
+                dc.w    %1111000000000000
+                dc.w    %0000000000000000
+                dc.w    %0000000000000000
+
+char_backslash  dc.w    %1000000000000000
+                dc.w    %1000000000000000
+                dc.w    %0100000000000000
+                dc.w    %0010000000000000
+                dc.w    %0010000000000000
+                dc.w    %0000000000000000
+                dc.w    %0000000000000000
+
+char_rightsquare 
+                dc.w    %0111100000000000
+                dc.w    %0000100000000000
+                dc.w    %0000100000000000
+                dc.w    %0000100000000000
+                dc.w    %0111100000000000
+                dc.w    %0000000000000000
+                dc.w    %0000000000000000
+
+char_carot      dc.w    %0010000000000000
+                dc.w    %0101000000000000
+                dc.w    %0000000000000000
+                dc.w    %0000000000000000
+                dc.w    %0000000000000000
+                dc.w    %0000000000000000
+                dc.w    %0000000000000000
+
+char_underscore
+                dc.w    %0000000000000000
+                dc.w    %0000000000000000
+                dc.w    %0000000000000000
+                dc.w    %0000000000000000
+                dc.w    %1111100000000000
+                dc.w    %0000000000000000
+                dc.w    %0000000000000000
+
+char_backtick   dc.w    %1000000000000000
+                dc.w    %0100000000000000
+                dc.w    %0000000000000000
+                dc.w    %0000000000000000
+                dc.w    %0000000000000000
                 dc.w    %0000000000000000
                 dc.w    %0000000000000000
 
