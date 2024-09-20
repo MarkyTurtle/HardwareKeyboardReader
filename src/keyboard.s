@@ -308,6 +308,8 @@ level3_interrupt_handler
                 beq     .end_handler
 
                 ; check for modifier keys
+.chk_modifier
+
 
                 ; check shift key down
 .chk_lshft_down cmp.b   #$60,d0             ; shift down
